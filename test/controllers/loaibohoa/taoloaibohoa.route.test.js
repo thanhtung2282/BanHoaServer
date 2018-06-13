@@ -48,4 +48,20 @@ describe('test POST/loaibohoa',()=>{
         const loaiDb = await LoaiBoHoa.findOne({});
         equal(loaiDb,null);
     });
+    it('Không Thể Tạo Loại Bó Hoa Khi Trùng Tên Loại',async()=>{
+        await loaibohoaService.taoLoaiBoHoa('Hoa Sinh Nhật','Hoa Sinh Nhật Nè');
+
+        const body = {
+            ten_loai : "Hoa Sinh Nhật",
+            mo_ta:"asasd"
+        };
+        const response = await supertest(app).post('/loaibohoa').send(body);
+        const {success,loai,message} = response.body;
+        equal(success,false);
+        equal(loai,undefined);
+        equal(message,"TEN_LOAI_DA_TON_TAI");
+        equal(response.status,400);
+        const loaiDb = await LoaiBoHoa.find();
+        equal(loaiDb.length,1);
+    });
 });

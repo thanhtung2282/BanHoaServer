@@ -15,4 +15,12 @@ loaibohoaRouter.post('/',(req,res)=>{
     .then(loai => res.send({success:true, loai}))
     .catch(res.onError);
 });
+//update
+loaibohoaRouter.put('/:id_loai',(req,res)=>{
+    const {ten_loai,mo_ta} =req.body;
+    const {id_loai} =req.params;
+    loaibohoaService.suaLoaiBoHoa(id_loai,ten_loai,mo_ta)
+    .then(loai => res.send({success:true, loai}))
+    .catch(res.onError);
+});
 module.exports = {loaibohoaRouter};

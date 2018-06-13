@@ -1,5 +1,6 @@
 const {LoaiBoHoa} = require('../models/loaibohoa.model');
 const {MyError} = require('../models/my-error');
+const {checkObjectId} = require('../helpers/checkObjectId');
 class loaibohoaService{
     static xemTatCaLoai(){
         return LoaiBoHoa.find({});
@@ -7,9 +8,22 @@ class loaibohoaService{
     static async taoLoaiBoHoa(ten_loai,mo_ta){
         if(!ten_loai) throw new MyError('TEN_LOAI_KHONG_DUOC_TRONG',400);
         if(!mo_ta) throw new MyError('MO_TA_KHONG_DUOC_TRONG',400);
-        const loai = new LoaiBoHoa({ten_loai,mo_ta});
-        return  loai.save();
+        try {
+            const loai = new LoaiBoHoa({ten_loai,mo_ta});
+            return  await loai.save();
+        } catch (error) {
+            if(error.name == 'MongoError') throw new MyError('TEN_LOAI_DA_TON_TAI',400);
+        }
      
+    }
+    static async suaLoaiBoHoa(id_loai,ten_loai,mo_ta){
+        if(!ten_loai) throw new MyError('TEN_LOAI_KHONG_DUOC_TRONG',400);
+        if(!mo_ta) throw new MyError('MO_TA_KHONG_DUOC_TRONG',400);
+        checkObjectId(id_loai);
+        const query = {ten_loai,mo_ta};
+        const loai = await LoaiBoHoa.findByIdAndUpdate(id_loai,query,{new:true});
+        if(!loai) throw new MyError('KHONG_TIM_THAY_LOAI',404);
+        return loai;
     }
 }
 module.exports = {loaibohoaService}
