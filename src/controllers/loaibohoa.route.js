@@ -23,4 +23,10 @@ loaibohoaRouter.put('/:id_loai',(req,res)=>{
     .then(loai => res.send({success:true, loai}))
     .catch(res.onError);
 });
+//delete
+loaibohoaRouter.delete('/:id_loai',(req,res)=>{
+    loaibohoaService.xoaLoaiBohoa(req.params.id_loai)
+    .then(loai => res.send({success:true, loai}))
+    .catch(res.onError);
+});
 module.exports = {loaibohoaRouter};

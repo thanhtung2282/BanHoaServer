@@ -63,7 +63,24 @@ describe('test PUT/loaibohoa/:id_loai',()=>{
             ten_loai : "Hoa Sinh Nhật Update",
             mo_ta:"Hoa Sinh Nhật Đẹp 1"
         };
-        const response = await supertest(app).put('/loaibohoa/sxy').send(body);
+        const response = await supertest(app).put('/loaibohoa/5b211154b2f55f30b047f89b').send(body);
+        const {success,loai,message} = response.body;
+        // console.log(response.body)
+        equal(success,false);
+        equal(loai,undefined);
+        equal(message,"KHONG_TIM_THAY_LOAI");
+        equal(response.status,404);
+        const loaiDb = await LoaiBoHoa.findById(id_loai);
+        equal(loaiDb._id.toString(),id_loai);
+        equal(loaiDb.ten_loai,"Hoa Sinh Nhật");
+        equal(loaiDb.mo_ta,"Hoa Sinh Nhật Nè");
+    });
+    it('Không Thể Sửa Loại Bó Hoa Khi Sai objectID',async()=>{
+        const body = {
+            ten_loai : "Hoa Sinh Nhật Update",
+            mo_ta:"Hoa Sinh Nhật Đẹp 1"
+        };
+        const response = await supertest(app).put('/loaibohoa/'+id_loai+1).send(body);
         const {success,loai,message} = response.body;
         // console.log(response.body)
         equal(success,false);
