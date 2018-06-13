@@ -5,5 +5,5 @@ const loaibohoaSchema = new Schema({
     mo_ta:{type:String, required:true,trim:true},
     bohoas:[{type:mongoose.SchemaTypes.ObjectId,red:'BoHoa'}]
 });
-const LoaiBoHoa = mongoose.model('BoHoa',loaibohoaSchema);
+const LoaiBoHoa = mongoose.model('LoaiBoHoa',loaibohoaSchema);
 module.exports = {LoaiBoHoa};
