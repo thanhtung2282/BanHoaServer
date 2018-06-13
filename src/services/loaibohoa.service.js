@@ -21,9 +21,16 @@ class loaibohoaService{
         if(!mo_ta) throw new MyError('MO_TA_KHONG_DUOC_TRONG',400);
         checkObjectId(id_loai);
         const query = {ten_loai,mo_ta};
-        const loai = await LoaiBoHoa.findByIdAndUpdate(id_loai,query,{new:true});
-        if(!loai) throw new MyError('KHONG_TIM_THAY_LOAI',404);
-        return loai;
+        try {
+            const loai = await LoaiBoHoa.findByIdAndUpdate(id_loai,query,{new:true});
+            if(!loai) throw new Error();
+            return loai; 
+        } catch (error) {
+            if(error.name == 'MongoError') throw new MyError('TEN_LOAI_DA_TON_TAI',400);
+            throw new MyError('KHONG_TIM_THAY_LOAI',404);
+            
+        }
+        
     }
 }
 module.exports = {loaibohoaService}
