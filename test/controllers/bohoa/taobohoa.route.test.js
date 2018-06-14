@@ -144,10 +144,10 @@ describe('TEST POST/bohoa',()=>{
         const loaibohoaDb = await LoaiBoHoa.findById(idLoai);
         equal(loaibohoaDb.bohoas.length,0);
     })
-    it.only('Không Thể Tạo Bó Hoa Khi Trùng Tên Bó Hoa',async()=>{
+    it('Không Thể Tạo Bó Hoa Khi Trùng Tên Bó Hoa',async()=>{
         const Temp = await bohoaService.taoBoHoa('Bó Hoa 01',"Bó Hoa 01",20000,"Bohoa01.png",idLoai);
         const body = {
-            ten_bo_hoa : "Bó Hoa 02",
+            ten_bo_hoa : "Bó Hoa 01",
             mo_ta : "Bó Hoa 01",
             gia_ban :20000,
             hinh_anh : "Bohoa01.png",
@@ -155,16 +155,15 @@ describe('TEST POST/bohoa',()=>{
         }
                 
         const response = await supertest(app).post('/bohoa').send(body);
-        console.log( response.body)
         
-        // const {success,bohoa,message}= response.body ;
+        const {success,bohoa,message}= response.body ;
         
-        // equal(success,false);
-        // equal(bohoa,null);
-        // equal(message,'TEN_BO_HOA_DA_TON_TAI');
-        // const bohoaDb = await BoHoa.findById(Temp._id).populate('loai_bo_hoa');
-        // equal(bohoaDb.ten_bo_hoa,"Bó Hoa 01");
-        // equal(bohoaDb.loai_bo_hoa.bohoas[0].toString(),Temp._id);
+        equal(success,false);
+        equal(bohoa,null);
+        equal(message,'TEN_BO_HOA_DA_TON_TAI');
+        const bohoaDb = await BoHoa.findById(Temp._id).populate('loai_bo_hoa');
+        equal(bohoaDb.ten_bo_hoa,"Bó Hoa 01");
+        equal(bohoaDb.loai_bo_hoa.bohoas[0].toString(),Temp._id);
 
     })
 });

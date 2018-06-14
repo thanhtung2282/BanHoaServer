@@ -50,7 +50,7 @@ class bohoaService{
             if(!bohoa_1) throw new Error();
             //update
             const bohoa  = await BoHoa.findByIdAndUpdate(_id,query,{new:true});
-            console.log(bohoa);
+            // console.log(bohoa);
             // them bó hoa vào loại bó hoa mói
             await LoaiBoHoa.findByIdAndUpdate(loai_bo_hoa,{$push:{bohoas:_id}},{new:true})
             //xoa bó hoa trong loai bó hoa cũ  

@@ -242,30 +242,28 @@ describe('TEST PUT/bohoa/:_id',()=>{
     });
     it('Không  Thể Sửa Bó Hoa Khi Trùng Tên Bó Hoa',async()=>{
         await bohoaService.taoBoHoa('Bó Hoa 002',"Bó Hoa 002",20000,"Bohoa002.png",idLoai_1);        
-        console.log(Temp);
-        // const body = {
-        //     ten_bo_hoa : "Bó Hoa 002",
-        //     mo_ta : "Bó Hoa 02",
-        //     gia_ban :200000,
-        //     hinh_anh : "Bohoa02.png",
-        //     idLoai:idLoai_2
-        // }
-        // const response = await supertest(app).put('/bohoa/'+idBoHoa).send(body);
-        // const {success,bohoa,message}= response.body;    
-        // console.log(response.body)
-        // equal(success,false);
-        // equal(message,"INVALID_ID");
-        // equal(bohoa,undefined);
-        // equal(response.status,400);
-        // const bohoaDb = await BoHoa.findById(idBoHoa).populate('loai_bo_hoa');
-        // equal(bohoaDb.ten_bo_hoa,"Bó Hoa 001");
-        // equal(bohoaDb.mo_ta,"Mô Tả Bó Hoa 001");
-        // equal(bohoaDb.gia_ban,200000);
-        // equal(bohoaDb.hinh_anh,"bohoa01.png");
-        // equal(bohoaDb.loai_bo_hoa._id.toString(),idLoai_1);
-        // equal(bohoaDb.loai_bo_hoa.ten_loai,'Hoa Sinh Nhật');
-        // equal(bohoaDb.loai_bo_hoa.bohoas[0].toString(),idBoHoa);
-        // const loaiDb = await LoaiBoHoa.findById(idLoai_2);
-        // equal(loaiDb,null);        
+        const body = {
+            ten_bo_hoa : "Bó Hoa 002",
+            mo_ta : "Bó Hoa 02",
+            gia_ban :200000,
+            hinh_anh : "Bohoa02.png",
+            idLoai:idLoai_2
+        }
+        const response = await supertest(app).put('/bohoa/'+idBoHoa).send(body);
+        const {success,bohoa,message}= response.body;    
+        equal(success,false);
+        equal(message,"TEN_BO_HOA_DA_TON_TAI");
+        equal(bohoa,undefined);
+        equal(response.status,400);
+        const bohoaDb = await BoHoa.findById(idBoHoa).populate('loai_bo_hoa');
+        equal(bohoaDb.ten_bo_hoa,"Bó Hoa 001");
+        equal(bohoaDb.mo_ta,"Mô Tả Bó Hoa 001");
+        equal(bohoaDb.gia_ban,200000);
+        equal(bohoaDb.hinh_anh,"bohoa01.png");
+        equal(bohoaDb.loai_bo_hoa._id.toString(),idLoai_1);
+        equal(bohoaDb.loai_bo_hoa.ten_loai,'Hoa Sinh Nhật');
+        equal(bohoaDb.loai_bo_hoa.bohoas[0].toString(),idBoHoa);
+        const loaiDb = await LoaiBoHoa.findById(idLoai_2);
+        equal(loaiDb.bohoas[0],null);        
     });
 });
