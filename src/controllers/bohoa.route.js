@@ -14,4 +14,11 @@ bohoaRouter.post('/',(req,res)=>{
     .then(bohoa => res.send({success:true,bohoa}))
     .catch(res.onError);
 });
+// sửa 
+bohoaRouter.put('/:_id',(req,res)=>{
+    const {ten_bo_hoa,mo_ta,gia_ban,hinh_anh,idLoai} = req.body;
+    bohoaService.suaBohoa(ten_bo_hoa,mo_ta,gia_ban,hinh_anh,idLoai,req.params._id)
+    .then(bohoa => res.send({success:true,bohoa}))
+    .catch(res.onError);
+});
 module.exports = {bohoaRouter};

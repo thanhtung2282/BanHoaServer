@@ -4,7 +4,7 @@ const {app} = require('../../../src/app');
 const {BoHoa} = require('../../../src/models/bohoa.model');
 const {LoaiBoHoa} = require('../../../src/models/loaibohoa.model');
 const {loaibohoaService} = require('../../../src/services/loaibohoa.service');
-
+const {bohoaService}= require('../../../src/services/bohoa.service');
 describe('TEST POST/bohoa',()=>{
     let idLoai;
     beforeEach('Tạo Loại Bó Hoa Để Test Tạo Bó Hoa',async()=>{
@@ -108,7 +108,7 @@ describe('TEST POST/bohoa',()=>{
         const loaibohoaDb = await LoaiBoHoa.findById(idLoai);
         equal(loaibohoaDb.bohoas.length,0);
     })
-    it('Không Thể Tạo Bó Hoa Khi ObjectId Trống',async()=>{
+    it('Không Thể Tạo Bó Hoa Khi ObjectId Loai',async()=>{
         const body = {
             ten_bo_hoa : "Bó Hoa 01",
             mo_ta : "Bó Hoa 01",
@@ -143,5 +143,28 @@ describe('TEST POST/bohoa',()=>{
         equal(bohoaDb,null);
         const loaibohoaDb = await LoaiBoHoa.findById(idLoai);
         equal(loaibohoaDb.bohoas.length,0);
+    })
+    it.only('Không Thể Tạo Bó Hoa Khi Trùng Tên Bó Hoa',async()=>{
+        const Temp = await bohoaService.taoBoHoa('Bó Hoa 01',"Bó Hoa 01",20000,"Bohoa01.png",idLoai);
+        const body = {
+            ten_bo_hoa : "Bó Hoa 02",
+            mo_ta : "Bó Hoa 01",
+            gia_ban :20000,
+            hinh_anh : "Bohoa01.png",
+            idLoai
+        }
+                
+        const response = await supertest(app).post('/bohoa').send(body);
+        console.log( response.body)
+        
+        // const {success,bohoa,message}= response.body ;
+        
+        // equal(success,false);
+        // equal(bohoa,null);
+        // equal(message,'TEN_BO_HOA_DA_TON_TAI');
+        // const bohoaDb = await BoHoa.findById(Temp._id).populate('loai_bo_hoa');
+        // equal(bohoaDb.ten_bo_hoa,"Bó Hoa 01");
+        // equal(bohoaDb.loai_bo_hoa.bohoas[0].toString(),Temp._id);
+
     })
 });
