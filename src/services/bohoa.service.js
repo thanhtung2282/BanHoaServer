@@ -20,7 +20,7 @@ class bohoaService{
         if(!loai) throw new MyError('KHONG_TIM_THAY_LOAI_HOA_NAY',404);
         //tạo
         try {
-            const bohoa  = new BoHoa({ten_bo_hoa,mo_ta,gia_ban,hinh_anh,loai_bo_hoa});
+            const bohoa  = new BoHoa({ten_bo_hoa,mo_ta,gia_ban,hinh_anh,so_luong_ton:0,loai_bo_hoa});
              
             await LoaiBoHoa.findByIdAndUpdate(loai_bo_hoa,{$push:{bohoas:bohoa._id}})
             
@@ -61,6 +61,16 @@ class bohoaService{
             if(error.name == 'MongoError') throw new MyError('TEN_BO_HOA_DA_TON_TAI',400); 
             throw new MyError('KHONG_TIM_THAY_BO_HOA',404);            
         }
+    }
+    static async xoaBohoa(idBohoa,idLoai){
+        //check object id
+        checkObjectId(idBohoa,idLoai);
+        const bohoa  = await BoHoa.findByIdAndRemove(idBohoa);
+        //khong tìm thấ  bó hoa
+        if(!bohoa) throw new MyError('KHONG_TIM_THAY_BO_HOA',404);
+        // xoa id boa hoa trong loại
+        await LoaiBoHoa.findByIdAndUpdate(idLoai,{$pull:{bohoas:idBohoa}});
+        return bohoa;
     }
 }
 module.exports = {bohoaService};

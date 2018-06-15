@@ -5,6 +5,7 @@ const bohoaSchema = new Schema({
     mo_ta:{type:String, required:true,trim:true},
     gia_ban:{type:Number, required:true,trim:true},
     hinh_anh:{type:String,required:true,trim:true},
+    so_luong_ton:{type:Number,required:true,trim:true},
     loai_bo_hoa:{type:mongoose.SchemaTypes.ObjectId,ref:'LoaiBoHoa'}
     
 });

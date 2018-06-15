@@ -152,12 +152,9 @@ describe('TEST POST/bohoa',()=>{
             gia_ban :20000,
             hinh_anh : "Bohoa01.png",
             idLoai
-        }
-                
-        const response = await supertest(app).post('/bohoa').send(body);
-        
-        const {success,bohoa,message}= response.body ;
-        
+        }            
+        const response = await supertest(app).post('/bohoa').send(body);    
+        const {success,bohoa,message}= response.body ;     
         equal(success,false);
         equal(bohoa,null);
         equal(message,'TEN_BO_HOA_DA_TON_TAI');

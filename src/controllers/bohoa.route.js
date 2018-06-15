@@ -21,4 +21,11 @@ bohoaRouter.put('/:_id',(req,res)=>{
     .then(bohoa => res.send({success:true,bohoa}))
     .catch(res.onError);
 });
+//xoa
+bohoaRouter.delete('/:_id',(req,res)=>{
+    const {idLoai} = req.body;
+    bohoaService.xoaBohoa(req.params._id,idLoai)
+    .then(bohoa => res.send({success:true,bohoa}))
+    .catch(res.onError);
+});
 module.exports = {bohoaRouter};
