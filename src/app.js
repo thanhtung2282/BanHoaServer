@@ -4,7 +4,7 @@ const {json} = require('body-parser');
 
 const {loaibohoaRouter} = require('./controllers/loaibohoa.route');
 const {bohoaRouter} = require('./controllers/bohoa.route');
-
+const {quyenRouter} = require('./controllers/quyen.route');
 const app = express();
 
 app.use(json());
@@ -18,5 +18,6 @@ app.use((req,res,next)=>{
 });
 app.use('/loaibohoa',loaibohoaRouter);
 app.use('/bohoa',bohoaRouter);
+app.use('/quyen',quyenRouter);
 
 module.exports = {app};
